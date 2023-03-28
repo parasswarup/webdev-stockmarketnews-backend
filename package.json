@@ -1,0 +1,31 @@
+{
+  "type": "module",
+  "name": "webdev-stockmarketnews-backend",
+  "version": "1.0.0",
+  "description": "webdev-stockmarketnews-backend",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/parasswarup/webdev-stockmarketnews-backend.git"
+  },
+  "keywords": [
+    "Node",
+    "REST",
+    "Server",
+    "HTTP"
+  ],
+  "author": "Paras Swarup",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/parasswarup/webdev-stockmarketnews-backend/issues"
+  },
+  "homepage": "https://github.com/parasswarup/webdev-stockmarketnews-backend#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.18.2"
+  }
+}
