@@ -49,13 +49,16 @@ const UserController = (app) => {
     const register = (req, res) => {
         const username = req.body.username;
         const password = req.body.password;
+        const firstName = req.body.firstName;
+        const lastName = req.body.lastName;
+        const age = req.body.age;
         const user = users.find((user) => user.username === username);
         if (user) {
             res.sendStatus(409);
             return;
         }
-        const newUser = { username, password, _id: new Date().getTime() + "" };
-        currentUser = newUser;
+        const newUser = { username, password, _id: new Date().getTime() + "", firstName, lastName, age, role: "REGISTERED"};
+        //currentUser = newUser;
         users.push(newUser);
         res.json(newUser);
     };
