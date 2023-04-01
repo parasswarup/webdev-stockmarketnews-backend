@@ -9,6 +9,7 @@ const UserController = (app) => {
             res.sendStatus(403);
         }
     };
+
     const findUserById = (req, res) => {
         const userId = req.params.userId;
         const user = users.find((user) => user._id === userId);
