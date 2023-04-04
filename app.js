@@ -24,7 +24,7 @@ catch (e) {
 
 
 const app = express();
-const webSocketServerPort = 443
+const webSocketServerPort = 8000
 const server = http.createServer()
 server.listen(webSocketServerPort)
 
