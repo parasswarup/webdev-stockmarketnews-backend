@@ -54,14 +54,12 @@ wsServer.on('request', function (request) {
 });
 
 var i = 0;
-/*
 const findAllNews1 = async () =>
    await axios.get('https://api.marketaux.com/v1/news/all?countries=in&filter_entities=true&limit=3&published_after=2023-03-09T10:57&api_token=sJVgcuDKE3EkgGFNvj7C8fntGv00ZfrV7C6C21NZ').then(response => response.data)
-*/
 
 async function find() {
-  /* const data = await findAllNews1()*/
-    const data = [{"description"
+   const data = await findAllNews1()
+    /*const data = [{"description"
             :
             "Zomato NZ Media Private Limited is Zomato’s New Zealand-based wholly-owned subsidiary, whereas Zomato Australia Pty Limited is based out of Australia and is a step-down subsidiary, , zomato",
         "image_url"
@@ -88,9 +86,9 @@ async function find() {
             "match_score": 8.362228,
             "sentiment_score": 0}]
     }
-    ]
+    ]*/
     i = i+1
-   const refinedData = data.map(obj => { const structuredData = {_id:obj.uuid,title:obj.title,description:obj.description,image:obj.image_url,source:obj.source,time:obj.published_at,symbol:obj.entities[0].symbol,company:obj.entities[0].name,industry:obj.entities[0].industry,sentiment:obj.entities[0].sentiment_score}
+   const refinedData = data.data.map(obj => { const structuredData = {_id:obj.uuid,title:obj.title,description:obj.description,image:obj.image_url,source:obj.source,time:obj.published_at,symbol:obj.entities[0].symbol,company:obj.entities[0].name,industry:obj.entities[0].industry,sentiment:obj.entities[0].sentiment_score}
 
        return structuredData
 
@@ -113,7 +111,7 @@ console.log(refinedData)
     client.send(k))
 
 
-    setTimeout(() => {find()}, 20000 )
+    setTimeout(() => {find()}, 60000 * 20 )
 }
 
 find()
