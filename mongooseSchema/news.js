@@ -12,5 +12,5 @@ const NewsSchema = new mongoose.Schema({
                                            industry:String,
                                            sentiment:Number
 
-                                       }, {collection: 'news'});
+                                       }, {collection: 'news1'});
 export default NewsSchema;
