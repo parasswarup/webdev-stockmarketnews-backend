@@ -9,6 +9,7 @@ import mongoose from 'mongoose';
 import dotenv from 'dotenv'
 import {createNews,findAllNews} from "./daos/news-dao.js";
 
+
 dotenv.config()
 
 try {
@@ -24,6 +25,11 @@ catch (e) {
 
 
 const app = express();
+app.use(cors({
+                 // credentials : true,
+                 origin :'*'
+             }));
+
 const webSocketServerPort = 8080
 const server = http.createServer()
 server.listen(webSocketServerPort)
@@ -120,10 +126,7 @@ find()
 
 
 
-app.use(cors({
-                // credentials : true,
-                 origin :'*'
-             }));
+
 
 app.use(express.json());
 app.get('/hello', (req, res) => {res.send('Life is good!')})
