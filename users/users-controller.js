@@ -1,10 +1,12 @@
 import users from "./users.js";
+import * as usersDao from "../daos/users-dao.js";
 
 const UserController = (app) => {
     let currentUser = null;
     const findAllUsers = (req, res) => {
         if (currentUser && currentUser.role === "ADMIN") {
-            res.json(users);
+            usersDao.findAllUsers()
+                .then((users) => res.json(users));
         } else {
             res.sendStatus(403);
         }
@@ -21,9 +23,10 @@ const UserController = (app) => {
     };
 
     const createUser = (req, res) => {
-        const user = { ...req.body, _id: new Date().getTime() + "" };
-        users.push(user);
-        res.json(user);
+        // const user = { ...req.body, _id: new Date().getTime() + "" };
+        // users.push(user);
+        usersDao.createUser(req.body).then(r => res.json(r));
+        //res.json(user);
     };
     const updateUser = (req, res) => {
         const userId = req.params.userId;
@@ -38,13 +41,13 @@ const UserController = (app) => {
     };
     const deleteUser = (req, res) => {
         const userId = req.params.userId;
-        const index = users.findIndex((user) => user._id === userId);
-        if (index === -1) {
-            res.sendStatus(404);
-            return;
-        }
-        users.splice(index, 1);
-        res.sendStatus(200);
+        // const index = users.findIndex((user) => user._id === userId);
+        // if (index === -1) {
+        //     res.sendStatus(404);
+        //     return;
+        // }
+        // users.splice(index, 1);
+        usersDao.deleteUser(userId).then(() => res.sendStatus(200));
     };
 
     const register = (req, res) => {
@@ -53,25 +56,27 @@ const UserController = (app) => {
         const firstName = req.body.firstName;
         const lastName = req.body.lastName;
         const age = req.body.age;
+        const email = req.body.email;
         const user = users.find((user) => user.username === username);
         if (user) {
             res.sendStatus(409);
             return;
         }
-        const newUser = { username, password, _id: new Date().getTime() + "", firstName, lastName, age, role: "REGISTERED"};
+        const newUser = { username, password, firstName, lastName, age, role: "REGISTERED", email};
         //currentUser = newUser;
-        users.push(newUser);
-        res.json(newUser);
+        // users.push(newUser);
+        usersDao.createUser(newUser).then(r => res.json(r));
     };
 
 
     app.post("/api/users/register", register);
-    app.post("/api/users/login", (req, res) => {
+    app.post("/api/users/login", async (req, res) => {
         const username = req.body.username;
         const password = req.body.password;
-        const user = users.find(
-            (user) => user.username === username && user.password === password
-        );
+        // const user = users.find(
+        //     (user) => user.username === username && user.password === password
+        // );
+        const user = await usersDao.findUserByCredentials(username, password);
         if (user) {
             currentUser = user;
             res.json(user);
