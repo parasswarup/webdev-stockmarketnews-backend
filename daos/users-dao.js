@@ -11,4 +11,7 @@ export const createUser = async (user) => {
 export const findUserByCredentials = (username, password) =>
     UserModel.findOne({ username, password });
 
+export const findUserByEmailAddress = (email) =>
+     UserModel.findOne({ email });
+
 export const deleteUser = (uid) => UserModel.deleteOne({ _id: uid });
