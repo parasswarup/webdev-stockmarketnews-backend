@@ -2,9 +2,8 @@ import users from "./users.js";
 import * as usersDao from "../daos/users-dao.js";
 
 const UserController = (app) => {
-    let currentUser = null;
     const findAllUsers = (req, res) => {
-        if (currentUser && currentUser.role === "ADMIN") {
+        if (req.session["currentUser"] && req.session.currentUser.role === "ADMIN") {
             usersDao.findAllUsers()
                 .then((users) => res.json(users));
         } else {
@@ -20,13 +19,6 @@ const UserController = (app) => {
         } else {
             res.sendStatus(404);
         }
-    };
-
-    const createUser = (req, res) => {
-        // const user = { ...req.body, _id: new Date().getTime() + "" };
-        // users.push(user);
-        usersDao.createUser(req.body).then(r => res.json(r));
-        //res.json(user);
     };
     const updateUser = (req, res) => {
         const userId = req.params.userId;
@@ -78,27 +70,28 @@ const UserController = (app) => {
         // );
         const user = await usersDao.findUserByCredentials(username, password);
         if (user) {
-            currentUser = user;
+            //currentUser = user;
+            req.session["currentUser"] = user;
             res.json(user);
         } else {
             res.sendStatus(404);
         }
     });
     app.post("/api/users/profile", (req, res) => {
-        if (!currentUser) {
+        if (!req.session["currentUser"]) {
             res.sendStatus(404);
             return;
         }
-        res.json(currentUser);
+        res.json(req.session["currentUser"]);
     });
     app.post("/api/users/logout", (req, res) => {
-        currentUser = null;
+        //currentUser = null;
+        req.session.destroy();
         res.sendStatus(200);
     });
 
     app.get("/api/users", findAllUsers);
     app.get("/api/users/:userId", findUserById);
-    app.post("/api/users", createUser);
     app.put("/api/users/:userId", updateUser);
     app.delete("/api/users/:userId", deleteUser);
 };

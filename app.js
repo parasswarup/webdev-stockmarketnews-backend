@@ -8,6 +8,7 @@ import axios from "axios";
 import mongoose from 'mongoose';
 import dotenv from 'dotenv'
 import {createNews,findAllNews} from "./daos/news-dao.js";
+import session from "express-session";
 
 dotenv.config()
 
@@ -24,6 +25,14 @@ catch (e) {
 
 
 const app = express();
+app.use(
+    session({
+        secret: "asdfasdfasdfasdf",
+        resave: false,
+        saveUninitialized: true,
+        // cookie: { secure: true }, // needs HTTPS
+    })
+);
 const webSocketServerPort = 8000
 const server = http.createServer()
 server.listen(webSocketServerPort)
@@ -121,7 +130,12 @@ find()
 
 
 
-app.use(cors())
+app.use(
+    cors({
+        credentials: true,
+        origin: "http://localhost:3000",
+    })
+);
 app.use(express.json());
 app.get('/hello', (req, res) => {res.send('Life is good!')})
 app.get('/', (req, res) => {res.send('Welcome to Full Stack Development!')})
