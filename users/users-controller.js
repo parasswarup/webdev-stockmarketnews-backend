@@ -1,14 +1,22 @@
 import users from "./users.js";
+import * as usersDao from "../daos/users-dao.js";
+import {findUserByEmailAddress} from "../daos/users-dao.js";
 
 const UserController = (app) => {
-    let currentUser = null;
     const findAllUsers = (req, res) => {
-        if (currentUser && currentUser.role === "ADMIN") {
-            res.json(users);
+        if (req.session["currentUser"] && req.session.currentUser.role === "ADMIN") {
+            usersDao.findAllUsers()
+                .then((users) => res.json(users));
         } else {
             res.sendStatus(403);
         }
     };
+
+    const findUserByEmail = (req, res) => {
+        const email = req.params.email;
+        const result = usersDao.findUserByEmailAddress(email);
+        res.json(result);
+    }
 
     const findUserById = (req, res) => {
         const userId = req.params.userId;
@@ -18,12 +26,6 @@ const UserController = (app) => {
         } else {
             res.sendStatus(404);
         }
-    };
-
-    const createUser = (req, res) => {
-        const user = { ...req.body, _id: new Date().getTime() + "" };
-        users.push(user);
-        res.json(user);
     };
     const updateUser = (req, res) => {
         const userId = req.params.userId;
@@ -37,63 +39,55 @@ const UserController = (app) => {
         res.sendStatus(200);
     };
     const deleteUser = (req, res) => {
-        const userId = req.params.userId;
-        const index = users.findIndex((user) => user._id === userId);
-        if (index === -1) {
-            res.sendStatus(404);
-            return;
-        }
-        users.splice(index, 1);
-        res.sendStatus(200);
+        usersDao.deleteUser(userId).then(() => res.sendStatus(200));
     };
 
-    const register = (req, res) => {
+    const register = async (req, res) => {
         const username = req.body.username;
         const password = req.body.password;
         const firstName = req.body.firstName;
         const lastName = req.body.lastName;
         const age = req.body.age;
-        const user = users.find((user) => user.username === username);
+        const email = req.body.email;
+        const user = await usersDao.findUserByEmailAddress(email)
         if (user) {
+            console.log("PARAS1")
             res.sendStatus(409);
             return;
         }
-        const newUser = { username, password, _id: new Date().getTime() + "", firstName, lastName, age, role: "REGISTERED"};
-        //currentUser = newUser;
-        users.push(newUser);
-        res.json(newUser);
+        const newUser = { username, password, firstName, lastName, age, role: "REGISTERED", email};
+        await usersDao.createUser(newUser).then(r => res.json(r));
     };
 
 
     app.post("/api/users/register", register);
-    app.post("/api/users/login", (req, res) => {
+    app.post("/api/users/login", async (req, res) => {
         const username = req.body.username;
         const password = req.body.password;
-        const user = users.find(
-            (user) => user.username === username && user.password === password
-        );
+        const user = await usersDao.findUserByCredentials(username, password);
         if (user) {
-            currentUser = user;
+            req.session["currentUser"] = user;
             res.json(user);
         } else {
             res.sendStatus(404);
         }
     });
     app.post("/api/users/profile", (req, res) => {
-        if (!currentUser) {
+        if (!req.session["currentUser"]) {
             res.sendStatus(404);
             return;
         }
-        res.json(currentUser);
+        res.json(req.session["currentUser"]);
     });
     app.post("/api/users/logout", (req, res) => {
-        currentUser = null;
+        //currentUser = null;
+        req.session.destroy();
         res.sendStatus(200);
     });
 
     app.get("/api/users", findAllUsers);
     app.get("/api/users/:userId", findUserById);
-    app.post("/api/users", createUser);
+    app.get("/api/users/email/:email", findUserByEmail);
     app.put("/api/users/:userId", updateUser);
     app.delete("/api/users/:userId", deleteUser);
 };
