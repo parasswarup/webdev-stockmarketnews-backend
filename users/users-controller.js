@@ -39,6 +39,7 @@ const UserController = (app) => {
         res.sendStatus(200);
     };
     const deleteUser = (req, res) => {
+        const userId = req.params.userId;
         usersDao.deleteUser(userId).then(() => res.sendStatus(200));
     };
 
