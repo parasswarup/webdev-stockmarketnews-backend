@@ -17,8 +17,6 @@ const saltRounds = 10;
  */
 const AuthenticationController = (app) => {
 
-
-
     const login = async (req, res) => {
         console.log("RESPONSE BODY",req.body)
         const email = req.body.email;
