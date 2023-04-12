@@ -1,6 +1,7 @@
 import * as usersDao from "../daos/users-dao.js";
 import * as privilegeDao from "../daos/privilege-dao.js";
 import bcrypt from "bcrypt"
+
 const saltRounds = 10;
 
 /**
@@ -22,6 +23,10 @@ const AuthenticationController = (app) => {
         const email = req.body.email;
         const password = req.body.password;
         const user =  await usersDao.findUserByEmailAddress(email);
+        if (!user) {
+            res.sendStatus(404);
+            return;
+        }
         console.log("USER LOGGED IN ",user);
         const match = await bcrypt.compare(password, user.password);
         let allowSignInVal = true;
@@ -79,14 +84,12 @@ const AuthenticationController = (app) => {
     const register = async (req, res) => {
         const newUser = req.body;
         const password = newUser.password;
-        const hash = await bcrypt.hash(password, saltRounds);
-        newUser.password = hash;
+        newUser.password = await bcrypt.hash(password, saltRounds);
 
         const user = await usersDao.findUserByEmailAddress(newUser.email);
 
         if (user) {
             res.sendStatus(403);
-            return;
         } else {
             const insertedUser = await usersDao
                 .createUser(newUser);
