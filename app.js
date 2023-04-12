@@ -2,7 +2,7 @@ import express, {json} from 'express';
 import cors from 'cors'
 import WebSocketServer from 'websocket';
 import http  from 'http';
-import UserController from "./users/users-controller.js";
+import UserController from "./controller/users-controller.js";
 import NewsController from "./controller/news-controller.js";
 import axios from "axios";
 import mongoose from 'mongoose';

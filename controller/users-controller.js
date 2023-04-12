@@ -1,6 +1,5 @@
-import users from "./users.js";
 import * as usersDao from "../daos/users-dao.js";
-import {findUserByEmailAddress} from "../daos/users-dao.js";
+
 
 const UserController = (app) => {
     const findAllUsers = (req, res) => {
