@@ -9,6 +9,7 @@ import mongoose from 'mongoose';
 import dotenv from 'dotenv'
 import {createNews,findAllNews} from "./daos/news-dao.js";
 import session from "express-session";
+import AuthenticationController from "./controller/auth-controller.js";
 
 dotenv.config()
 
@@ -103,7 +104,7 @@ async function find() {
        return structuredData
 
    })
-console.log(refinedData)
+//console.log(refinedData)
     for (const item of refinedData) {
         try {
             await createNews((item));
@@ -114,7 +115,7 @@ console.log(refinedData)
     }
 
    const k = JSON.stringify(await findAllNews())
-    console.log(k)
+    //console.log(k)
     wsServer.connections.forEach(client =>
 
 
@@ -142,6 +143,7 @@ app.get('/', (req, res) => {res.send('Welcome to Full Stack Development!')})
 
 UserController(app);
 NewsController(app);
+AuthenticationController(app)
 
 
 app.listen(process.env.PORT || 4000);
