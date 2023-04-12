@@ -1,7 +1,7 @@
 import NewsModel from "../models/news-model.js";
 
 export const findAllNews = async () => {
-    const news = await NewsModel.find();
+    const news = await NewsModel.find().sort({time: 'desc'});
     return news;
 };
 
