@@ -9,9 +9,9 @@ import mongoose from 'mongoose';
 import dotenv from 'dotenv'
 import {createNews,findAllNews} from "./daos/news-dao.js";
 import session from "express-session";
+import ViewsController from "./views/views-controller.js";
 
 dotenv.config()
-
 try {
     console.log("Pass",process.env.TUITER_PASSWORD)
     mongoose.connect('mongodb+srv://stockmarket:' + process.env.TUITER_PASSWORD
@@ -20,8 +20,6 @@ try {
 catch (e) {
     console.log(e.toString())
 }
-
-
 
 
 const app = express();
@@ -124,7 +122,6 @@ console.log(refinedData)
     setTimeout(() => {find()},60000 *20 )
 }
 
-find()
 
 
 
@@ -142,7 +139,8 @@ app.get('/', (req, res) => {res.send('Welcome to Full Stack Development!')})
 
 UserController(app);
 NewsController(app);
+ViewsController(app);
 
 
-app.listen(process.env.PORT || 4000);
+app.listen(process.env.PORT || 4001);
 
