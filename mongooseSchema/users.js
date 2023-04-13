@@ -26,6 +26,7 @@ const UserSchema = new mongoose.Schema(
         firstName: String,
         lastName: String,
         age: Number,
+        profilePhoto: String,
         role: {
             type: String,
             default: "REGISTERED",
