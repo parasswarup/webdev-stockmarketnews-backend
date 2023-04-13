@@ -38,7 +38,6 @@ const AuthenticationController = (app) => {
             res.sendStatus(403);
         }
     }
-
     const googleLogin = async (req, res) => {
         console.log("RESPONSE BODY",req.body)
         const email = req.body.email;
