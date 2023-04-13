@@ -39,42 +39,55 @@ const AuthenticationController = (app) => {
         }
     }
 
-    /*const googleLogin = async (req: Request, res: Response) => {
-        const newUser = req.body;
-        console.log('This is the user',newUser)
-        const password = newUser.password;
-        const hash = await bcrypt.hash(password, saltRounds);
-        newUser.password = hash;
+    const googleLogin = async (req, res) => {
+        console.log("RESPONSE BODY",req.body)
+        const email = req.body.email;
+        const password = req.body.password;
+        const user =  await usersDao.findUserByEmailAddress(email);
+        console.log("USER LOGGED IN ",user);
 
-        const existingUser = await userDao
-            .findUserByUsername(req.body.userName);
-        let allowSignInVal = true;
-        if (existingUser) {
-            const allowSignIn = await PrivilegeDao.getInstance().getPrivilegesUser(existingUser._id)
-            allowSignInVal=allowSignIn.allowSignIn;
-        }
+        if(user) {
+            const match = await bcrypt.compare(password, user.password);
+            let allowSignInVal = true;
+            if (match) {
+                const allowSignIn = await privilegeDao.getPrivilegeByUser(user._id)
+                allowSignInVal = allowSignIn.allowSignIn;
+            }
 
-        if(allowSignInVal) {
-            if (existingUser) {
-                existingUser.password = '*****';
-                // @ts-ignore
-                req.session['profile'] = existingUser;
-                res.json(existingUser);
-                console.log("I am reaching here creating the session");
+            if (match && allowSignInVal) {
+                user.password = '*****';
+                req.session['currentUser'] = user;
+                res.json(user);
             } else {
-                const insertedUser = await userDao
-                    .createUser(newUser);
-                insertedUser.password = '';
-                // @ts-ignore
-                req.session['profile'] = insertedUser;
-                res.json(insertedUser);
+                res.sendStatus(403);
             }
         }
         else {
-            res.sendStatus(403);
+            const newUser = req.body;
+            const password = newUser.password;
+            const hash = await bcrypt.hash(password, saltRounds);
+            newUser.password = hash;
+
+
+
+
+                const insertedUser = await usersDao
+                    .createUser(newUser);
+                console.log("INSERTED USER",insertedUser)
+                insertedUser.password = '********';
+                await privilegeDao.createPrivilege(insertedUser._id)
+                req.session['currentUser'] = insertedUser;
+                if(insertedUser) {
+                    res.json(insertedUser);
+                }
+                else{
+                    res.sendStatus(403);
+                }
+
         }
     }
-*/
+
+
 
     const register = async (req, res) => {
         const newUser = req.body;
@@ -117,6 +130,7 @@ const AuthenticationController = (app) => {
         res.sendStatus(200);
     }
 
+    app.post("/api/auth/google-login", googleLogin);
     app.post("/api/auth/login", login);
     app.post("/api/auth/register", register);
     app.post("/api/auth/profile", profile);
