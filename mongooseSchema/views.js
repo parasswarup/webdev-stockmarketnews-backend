@@ -17,6 +17,7 @@ const ViewSchema = new mongoose.Schema(
         likes: Number,
         liked: Boolean,
         messageCount:Number,
-        view: String
+        view: String,
+        datePosted: Date
     },  {collection: 'views'});
 export default ViewSchema;

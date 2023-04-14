@@ -2,7 +2,7 @@ import express, {json} from 'express';
 import cors from 'cors'
 import WebSocketServer from 'websocket';
 import http  from 'http';
-import UserController from "./users/users-controller.js";
+import UserController from "./controller/users-controller.js";
 import NewsController from "./controller/news-controller.js";
 import axios from "axios";
 import mongoose from 'mongoose';
@@ -10,6 +10,7 @@ import dotenv from 'dotenv'
 import {createNews,findAllNews} from "./daos/news-dao.js";
 import session from "express-session";
 import ViewsController from "./views/views-controller.js";
+import AuthenticationController from "./controller/auth-controller.js";
 
 dotenv.config()
 try {
@@ -101,7 +102,7 @@ async function find() {
        return structuredData
 
    })
-console.log(refinedData)
+//console.log(refinedData)
     for (const item of refinedData) {
         try {
             await createNews((item));
@@ -112,7 +113,7 @@ console.log(refinedData)
     }
 
    const k = JSON.stringify(await findAllNews())
-    console.log(k)
+    //console.log(k)
     wsServer.connections.forEach(client =>
 
 
@@ -140,6 +141,7 @@ app.get('/', (req, res) => {res.send('Welcome to Full Stack Development!')})
 UserController(app);
 NewsController(app);
 ViewsController(app);
+AuthenticationController(app);
 
 
 app.listen(process.env.PORT || 4001);

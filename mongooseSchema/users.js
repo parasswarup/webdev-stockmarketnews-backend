@@ -20,12 +20,13 @@ import mongoose from "mongoose";
 //                                        }, {collection: 'users'});
 const UserSchema = new mongoose.Schema(
     {
-        username: { type: String, required: true },
+        username: { type: String },
         password: { type: String, required: true },
         email: { type: String, required: true},
         firstName: String,
         lastName: String,
         age: Number,
+        profilePhoto: String,
         role: {
             type: String,
             default: "REGISTERED",

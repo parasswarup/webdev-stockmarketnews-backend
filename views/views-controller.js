@@ -30,9 +30,22 @@ const ViewsController = (app) => {
         ViewsDao.deleteView(id).then(() => res.sendStatus(200));
     };
 
+    const updateView = (req, res) => {
+        const viewId = req.params.id;
+        const newView = req.body;
+        const index = users.findIndex((user) => user._id === userId);
+        if (index === -1) {
+            res.sendStatus(404);
+            return;
+        }
+        users[index] = newUser;
+        res.sendStatus(200);
+    };
+
     app.post("/api/views", createView);
     app.get("/api/views", findAllViews);
     app.delete("/api/views/:id", deleteView);
+    app.put("api/views/:id", updateView);
 };
 
 
