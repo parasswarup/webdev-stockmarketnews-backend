@@ -9,7 +9,7 @@ import mongoose from 'mongoose';
 import dotenv from 'dotenv'
 import {createNews,findAllNews} from "./daos/news-dao.js";
 import session from "express-session";
-import ViewsController from "./views/views-controller.js";
+import ViewsController from "./controller/views-controller.js";
 import AuthenticationController from "./controller/auth-controller.js";
 
 dotenv.config()
@@ -21,6 +21,7 @@ try {
 catch (e) {
     console.log(e.toString())
 }
+
 
 
 const app = express();

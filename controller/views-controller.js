@@ -1,7 +1,7 @@
 import axios from 'axios';
 import {response} from "express";
 import News from "../models/news-model.js";
-import views from "./views.js"
+import views from "../views/views.js"
 import * as ViewsDao from "../daos/views-dao.js";
 
 
@@ -26,8 +26,11 @@ const ViewsController = (app) => {
     };
 
 
-    const deleteView = (req, res) => {
-        ViewsDao.deleteView(id).then(() => res.sendStatus(200));
+    const deleteView = async (req, res) => {
+        const viewIdToDelete = req.params.id;
+        const status = await ViewsDao
+            .deleteView(viewIdToDelete);
+        res.json(status);
     };
 
     const updateView = (req, res) => {

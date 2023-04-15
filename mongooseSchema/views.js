@@ -2,10 +2,9 @@ import mongoose from "mongoose";
 
 const ViewSchema = new mongoose.Schema(
     {
-        _id : {type:String, required:true},
         username: { type: String, required: true },
 
-        email: { type: String, required: true},
+        email: { type: String},
         firstName: String,
         lastName: String,
         age: Number,
