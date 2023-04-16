@@ -17,6 +17,17 @@ const ViewSchema = new mongoose.Schema(
         liked: Boolean,
         messageCount:Number,
         view: String,
-        datePosted: Date
+        datePosted: Date,
+        profilePhoto: String,
+        comment: [{
+            userId: String,
+            message: String,
+            likes: Number,
+            dislikes: Number,
+            username: String,
+            profilePhoto: String,
+            datePosted: {type: Date}
+        }]
+
     },  {collection: 'views'});
 export default ViewSchema;

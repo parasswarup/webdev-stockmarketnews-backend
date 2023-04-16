@@ -124,6 +124,7 @@ async function find() {
     setTimeout(() => {find()},60000 *20 )
 }
 
+find()
 
 
 
@@ -145,5 +146,6 @@ ViewsController(app);
 AuthenticationController(app);
 
 
-app.listen(process.env.PORT || 4001);
+app.listen(process.env.PORT || 4000);
+
 
