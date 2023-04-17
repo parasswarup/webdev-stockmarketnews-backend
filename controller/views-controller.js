@@ -3,6 +3,7 @@ import {response} from "express";
 import News from "../models/news-model.js";
 import views from "../views/views.js"
 import * as ViewsDao from "../daos/views-dao.js";
+import {updateView} from "../daos/views-dao.js";
 
 
 
@@ -33,16 +34,9 @@ const ViewsController = (app) => {
         res.json(status);
     };
 
-    const updateView = (req, res) => {
-        const viewId = req.params.id;
-        const newView = req.body;
-        const index = users.findIndex((user) => user._id === userId);
-        if (index === -1) {
-            res.sendStatus(404);
-            return;
-        }
-        users[index] = newUser;
-        res.sendStatus(200);
+    const updateView = async (req, res) => {
+        const status = await ViewsDao.updateView(req.params.id, req.body);
+        res.send(status);
     };
 
     app.post("/api/views", createView);
