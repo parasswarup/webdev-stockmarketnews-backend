@@ -114,7 +114,7 @@ const AuthenticationController = (app) => {
     }
 
 
-    const profile = (req, res) => {
+    const profile = async (req, res) => {
         // @ts-ignore
         const profile = req.session['currentUser'];
         console.log(profile);
@@ -126,7 +126,7 @@ const AuthenticationController = (app) => {
     }
 
 
-    const logout = (req, res) => {
+    const logout = async (req, res) => {
         // @ts-ignore
         req.session.destroy();
         res.sendStatus(200);
