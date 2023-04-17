@@ -36,7 +36,7 @@ const AuthenticationController = (app) => {
         }
 
         if (match && allowSignInVal) {
-            user.password = '*****';
+            user.password = bcrypt.hash(password, saltRounds);
             req.session['currentUser'] = user;
             res.json(user);
         } else {
@@ -59,7 +59,7 @@ const AuthenticationController = (app) => {
             }
 
             if (match && allowSignInVal) {
-                user.password = '*****';
+                user.password = bcrypt.hash(password, saltRounds);
                 req.session['currentUser'] = user;
                 res.json(user);
             } else {
@@ -78,7 +78,7 @@ const AuthenticationController = (app) => {
                 const insertedUser = await usersDao
                     .createUser(newUser);
                 console.log("INSERTED USER",insertedUser)
-                insertedUser.password = '********';
+                insertedUser.password = bcrypt.hash(password, saltRounds);
                 await privilegeDao.createPrivilege(insertedUser._id)
                 req.session['currentUser'] = insertedUser;
                 if(insertedUser) {
@@ -106,7 +106,7 @@ const AuthenticationController = (app) => {
             const insertedUser = await usersDao
                 .createUser(newUser);
             console.log("INSERTED USER",insertedUser)
-            insertedUser.password = '********';
+            insertedUser.password = bcrypt.hash(password, saltRounds);
             await privilegeDao.createPrivilege(insertedUser._id)
             req.session['currentUser'] = insertedUser;
             res.json(insertedUser);

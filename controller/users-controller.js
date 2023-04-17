@@ -29,8 +29,8 @@ const UserController = (app) => {
     const updateUser = (req, res) => {
         const userId = req.params.userId;
         const newUser = req.body;
-        console.log("updateProfile");
-        usersDao.updateUser(userId, newUser).then(() => res.sendStatus(200));
+        usersDao.updateUser(userId, newUser).then(() => res.json(newUser));
+        req.session["currentUser"] = newUser;
     };
     const deleteUser = (req, res) => {
         const userId = req.params.userId;
