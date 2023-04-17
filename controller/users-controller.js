@@ -29,13 +29,8 @@ const UserController = (app) => {
     const updateUser = (req, res) => {
         const userId = req.params.userId;
         const newUser = req.body;
-        const index = users.findIndex((user) => user._id === userId);
-        if (index === -1) {
-            res.sendStatus(404);
-            return;
-        }
-        users[index] = newUser;
-        res.sendStatus(200);
+        console.log("updateProfile");
+        usersDao.updateUser(userId, newUser).then(() => res.sendStatus(200));
     };
     const deleteUser = (req, res) => {
         const userId = req.params.userId;
