@@ -9,10 +9,10 @@ import mongoose from 'mongoose';
 import dotenv from 'dotenv'
 import {createNews,findAllNews} from "./daos/news-dao.js";
 import session from "express-session";
+import ViewsController from "./controller/views-controller.js";
 import AuthenticationController from "./controller/auth-controller.js";
 
 dotenv.config()
-
 try {
     console.log("Pass",process.env.TUITER_PASSWORD)
     mongoose.connect('mongodb+srv://stockmarket:' + process.env.TUITER_PASSWORD
@@ -21,7 +21,6 @@ try {
 catch (e) {
     console.log(e.toString())
 }
-
 
 
 
@@ -65,7 +64,7 @@ wsServer.on('request', function (request) {
 
 var i = 0;
 const findAllNews1 = async () =>
-   await axios.get('https://api.marketaux.com/v1/news/all?countries=in&filter_entities=true&limit=3&published_after=2023-03-09T10:57&api_token=sJVgcuDKE3EkgGFNvj7C8fntGv00ZfrV7C6C21NZ').then(response => response.data)
+   await axios.get('https://api.marketaux.com/v1/news/all?countries=in&filter_entities=true&limit=3&published_after=2023-03-09T10:57&api_token=IKdLsrWdrAo18pM4p5DaEGSDDxgsugTVMnf5UDvs').then(response => response.data)
 
 async function find() {
    const data = await findAllNews1()
@@ -143,8 +142,10 @@ app.get('/', (req, res) => {res.send('Welcome to Full Stack Development!')})
 
 UserController(app);
 NewsController(app);
-AuthenticationController(app)
+ViewsController(app);
+AuthenticationController(app);
 
 
 app.listen(process.env.PORT || 4000);
+
 
