@@ -34,7 +34,7 @@ app.use(
         // cookie: { secure: true }, // needs HTTPS
     })
 );
-const webSocketServerPort = 8000
+const webSocketServerPort = (process.env.PORT || 8080)
 const server = http.createServer()
 server.listen(webSocketServerPort)
 
@@ -65,10 +65,16 @@ wsServer.on('request', function (request) {
 
 var i = 0;
 const findAllNews1 = async () =>
-   await axios.get('https://api.marketaux.com/v1/news/all?countries=in&filter_entities=true&limit=3&published_after=2023-03-09T10:57&api_token=sJVgcuDKE3EkgGFNvj7C8fntGv00ZfrV7C6C21NZ').then(response => response.data)
+   await axios.get('https://api.marketaux.com/v1/news/all?countries=in&filter_entities=true&limit=3&published_after=2023-03-09T10:57&api_token='+process.env.REACT_APP_API_TOKEN).then(response => response.data)
 
 async function find() {
-   const data = await findAllNews1()
+
+
+     const  data = await findAllNews1()
+
+
+
+
    /* const data = [{"description"
             :
             "Zomato NZ Media Private Limited is Zomato’s New Zealand-based wholly-owned subsidiary, whereas Zomato Australia Pty Limited is based out of Australia and is a step-down subsidiary, , zomato",
@@ -125,7 +131,12 @@ async function find() {
     setTimeout(() => {find()},60000 *20 )
 }
 
-find()
+try {
+    find()
+}
+catch(e){
+    console.log(e)
+}
 
 
 

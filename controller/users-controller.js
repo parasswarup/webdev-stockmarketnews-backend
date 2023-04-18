@@ -10,7 +10,6 @@ const UserController = (app) => {
             res.sendStatus(403);
         }
     };
-
     const findUserByEmail = (req, res) => {
         const email = req.params.email;
         const result = usersDao.findUserByEmailAddress(email);
