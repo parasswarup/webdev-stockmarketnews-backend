@@ -35,6 +35,7 @@ const ViewsController = (app) => {
     };
 
     const updateView = async (req, res) => {
+        console.log("here i am",req.body);
         const status = await ViewsDao.updateView(req.params.id, req.body);
         res.send(status);
     };
@@ -42,7 +43,7 @@ const ViewsController = (app) => {
     app.post("/api/views", createView);
     app.get("/api/views", findAllViews);
     app.delete("/api/views/:id", deleteView);
-    app.put("api/views/:id", updateView);
+    app.put("/api/views/:id", updateView);
 };
 
 
