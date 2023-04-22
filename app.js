@@ -4,6 +4,7 @@ import WebSocketServer from 'websocket';
 import http  from 'http';
 import UserController from "./controller/users-controller.js";
 import NewsController from "./controller/news-controller.js";
+import NewsCommentsController from "./controller/news-comments-controller.js";
 import axios from "axios";
 import mongoose from 'mongoose';
 import dotenv from 'dotenv'
@@ -64,10 +65,23 @@ wsServer.on('request', function (request) {
 
 var i = 0;
 const findAllNews1 = async () =>
-   await axios.get('https://api.marketaux.com/v1/news/all?countries=in&filter_entities=true&limit=3&published_after=2023-03-09T10:57&api_token=jXBIWybwY6T5eCLj0jibyvob8pWhlfX23KJlfURo').then(response => response.data)
+  await axios.get('https://api.marketaux.com/v1/news/all?countries=in&filter_entities=true&limit=3&published_after=2023-03-09T10:57&api_token=IKdLsrWdrAo18pM4p5DaEGSDDxgsugTVMnf5UDvs').then(response => response.data)
 
 async function find() {
-   const data = await findAllNews1()
+
+   let  data
+    try {
+        data = await findAllNews1()}
+    catch (error) {
+      // console.log("Error in fetching market data",error)
+        setTimeout(() => {find()},60000 *20 )
+    }
+
+    if(data===undefined){
+        console.log("UNDEFINED")
+        setTimeout(() => {find()},60*1000 *20 )
+        return
+    }
    /* const data = [{"description"
             :
             "Zomato NZ Media Private Limited is Zomato’s New Zealand-based wholly-owned subsidiary, whereas Zomato Australia Pty Limited is based out of Australia and is a step-down subsidiary, , zomato",
@@ -110,6 +124,7 @@ async function find() {
         }
         catch (err){
 
+
         }
     }
 
@@ -143,6 +158,7 @@ app.get('/', (req, res) => {res.send('Welcome to Full Stack Development!')})
 UserController(app);
 NewsController(app);
 ViewsController(app);
+NewsCommentsController(app);
 AuthenticationController(app);
 
 

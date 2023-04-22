@@ -22,8 +22,16 @@ const NewsController = (app) => {
         res.json(newNews);
     };
 
+    const findNewsByID = async (req, res) => {
+        console.log("NEWS BY ID")
+        const data = await NewsDao.findNewsById(req.params.id)
+        console.log(data)
+        res.json(data);
+    };
+
     app.post("/api/news", createNews);
     app.get("/api/news", findAllNews);
+    app.get("/api/news/:id", findNewsByID);
 };
 
 
