@@ -1,19 +1,22 @@
-import axios from 'axios';
-import {response} from "express";
-import News from "../models/news-model.js";
-import views from "../views/views.js"
 import * as ViewsDao from "../daos/views-dao.js";
-import {updateView} from "../daos/views-dao.js";
 
 
 
 const ViewsController = (app) => {
-    let currentUser = null;
 
     const findAllViews = async (req, res) => {
 
         console.log("reaching here in views")
         const data = await ViewsDao.findAllViews()
+        console.log(data)
+        res.json(data);
+        //res.json(views);
+    };
+
+    const findAllViewComments = async (req, res) => {
+
+        console.log("reaching here in views")
+        const data = await ViewsDao.findAllViewComments(req.params.vid)
         console.log(data)
         res.json(data);
         //res.json(views);
@@ -40,10 +43,29 @@ const ViewsController = (app) => {
         res.send(status);
     };
 
+    const addViewComment = async (req, res) => {
+        const insertedComment = await ViewsDao.addViewComment(req.params.vid, req.body);
+        res.json(insertedComment);
+    };
+
+    const deleteViewComment = async (req, res) => {
+        const status = await ViewsDao.deleteViewComment(req.params.vid, req.params.cid);
+        res.send(status);
+    };
+
+    const updateViewCommentCount = async (req, res) => {
+        const status = await ViewsDao.updateViewCommentCount(req.params.vid, req.params.count);
+        res.send(status);
+    };
+
     app.post("/api/views", createView);
     app.get("/api/views", findAllViews);
     app.delete("/api/views/:id", deleteView);
+    app.get("/api/views/comment/:vid", findAllViewComments);
     app.put("/api/views/:id", updateView);
+    app.put("/api/views/comment/:vid", addViewComment);
+    app.put("/api/views/comment/:vid/:cid", deleteViewComment);
+    app.put("/api/views/comment/count/:vid/:count", updateViewCommentCount);
 };
 
 

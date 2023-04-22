@@ -3,7 +3,8 @@ import mongoose from "mongoose";
 const ViewSchema = new mongoose.Schema(
     {
         username: { type: String, required: true },
-
+        title: String,
+        userId: String,
         email: { type: String},
         firstName: String,
         lastName: String,
