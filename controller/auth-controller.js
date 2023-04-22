@@ -139,5 +139,4 @@ const AuthenticationController = (app) => {
     app.post("/api/auth/logout", logout);
     //app.post("/api/auth/googleLogin", googleLogin);
 }
-
 export default AuthenticationController;
