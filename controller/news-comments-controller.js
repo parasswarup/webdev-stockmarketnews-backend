@@ -16,8 +16,8 @@ const NewsCommentsController = (app) =>{
 
     const findAllNewsComments = async (req,res) => {
         const allNewsComments = await newsCommentsDao.findAllNewsComments(req.params.newsID);
+        console.log("Printing all COMMENTS",allNewsComments)
         res.json(allNewsComments)
-
     }
 
 
