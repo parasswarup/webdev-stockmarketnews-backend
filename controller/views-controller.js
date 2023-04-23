@@ -1,4 +1,5 @@
 import * as ViewsDao from "../daos/views-dao.js";
+import {decreaseViewLikeCount, increaseViewLikeCount} from "../daos/views-dao.js";
 
 
 
@@ -58,6 +59,26 @@ const ViewsController = (app) => {
         res.send(status);
     };
 
+    const updateViewLikeCount = async (req, res) => {
+        const status = await ViewsDao.updateViewLikeCount(req.params.vid, req.params.count);
+        res.send(status);
+    };
+
+    const increaseViewLikeCount = async (req, res) => {
+        const status = await ViewsDao.increaseViewLikeCount(req.params.vid);
+        res.send(status);
+    };
+
+    const decreaseViewLikeCount = async (req, res) => {
+        const status = await ViewsDao.decreaseViewLikeCount(req.params.vid);
+        res.send(status);
+    };
+
+    const getViewLikeCount = async (req, res) => {
+        const status = await ViewsDao.getViewLikeCount(req.params.vid);
+        res.send(status);
+    };
+
     app.post("/api/views", createView);
     app.get("/api/views", findAllViews);
     app.delete("/api/views/:id", deleteView);
@@ -66,6 +87,13 @@ const ViewsController = (app) => {
     app.put("/api/views/comment/:vid", addViewComment);
     app.put("/api/views/comment/:vid/:cid", deleteViewComment);
     app.put("/api/views/comment/count/:vid/:count", updateViewCommentCount);
+    app.put("/api/views/like/count/:vid/:count", updateViewLikeCount);
+
+    app.put("/api/views/like/increase/:vid", increaseViewLikeCount);
+
+    app.put("/api/views/like/decrease/:vid", decreaseViewLikeCount);
+
+    app.get("/api/views/like/:vid", getViewLikeCount);
 };
 
 

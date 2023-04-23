@@ -38,3 +38,19 @@ export const updateViewCommentCount = async (vid, count) => {
     return ViewsModel.updateOne({ _id: vid }, { $set: { messageCount : count  }} );
 }
 
+export const updateViewLikeCount = async (vid, count) => {
+    return ViewsModel.updateOne({ _id: vid }, { $set: { likes : count  }} );
+}
+
+export const increaseViewLikeCount = async (vid) => {
+    return ViewsModel.updateOne({ _id: vid }, { $inc: { likes : 1  }} );
+}
+
+
+export const decreaseViewLikeCount = async (vid) => {
+    return ViewsModel.updateOne({ _id: vid }, { $inc: { likes : -1  }} );
+}
+
+export const getViewLikeCount = async (vid) => {
+    return ViewsModel.find({ _id: vid }, {"likes": "$likes"});
+}
