@@ -13,7 +13,9 @@ export const findNewsComments  = (commentID ) => {
 }
 
 export const findAllNewsComments  = (newsID ) => {
-    const status = NewsCommentsModel.find({news: newsID}).sort({date:'desc'})
+    const status = NewsCommentsModel.find({news: newsID}).populate("user").sort({date:'desc'}).exec()
+    status.then(data => {console.log("DATA",data)})
+
     return status
 
 }

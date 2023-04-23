@@ -9,9 +9,8 @@ const NewsController = (app) => {
     let currentUser = null;
 
     const findAllNews = async (req, res) => {
-        console.log("reaching here")
         const data = await NewsDao.findAllNews()
-        console.log(data)
+
         res.json(data);
     };
 
