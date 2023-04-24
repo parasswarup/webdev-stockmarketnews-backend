@@ -6,16 +6,17 @@ export const createNewsComments  = (newsComments ) => {
 
 }
 
-export const findNewsComments  = (commentID ) => {
-    const status = NewsCommentsModel.findOne(commentID)
+export const findNewsCommentsByUser = async (uid) => {
+    const status = await NewsCommentsModel.distinct("news", {"user": uid})
+
+
     return status
 
 }
 
 export const findAllNewsComments  = (newsID ) => {
-    const status = NewsCommentsModel.find({news: newsID}).populate("user").sort({date:'desc'}).exec()
-    status.then(data => {console.log("DATA",data)})
-
+    console.log(newsID)
+    const status = NewsCommentsModel.find({ "news._id": newsID}).populate("user").sort({date:'desc'}).exec()
     return status
 
 }
