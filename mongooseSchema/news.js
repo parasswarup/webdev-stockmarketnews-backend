@@ -13,4 +13,4 @@ const NewsSchema = new mongoose.Schema({
                                            sentiment:Number
 
                                        }, {collection: 'news'});
-export default NewsSchema;
+export default NewsSchema

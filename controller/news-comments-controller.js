@@ -16,8 +16,12 @@ const NewsCommentsController = (app) =>{
 
     const findAllNewsComments = async (req,res) => {
         const allNewsComments = await newsCommentsDao.findAllNewsComments(req.params.newsID);
-        console.log("Printing all COMMENTS",allNewsComments)
         res.json(allNewsComments)
+    }
+    const findNewsByUser = async (req,res) => {
+        const allNews = await newsCommentsDao.findNewsCommentsByUser(req.params.userID);
+        console.log("Printing all COMMENTS",allNews)
+        res.json(allNews)
     }
 
 
@@ -35,6 +39,7 @@ const NewsCommentsController = (app) =>{
 
     app.post("/api/news/comments", createNewsComment)
     app.get("/api/news/comments/:newsID", findAllNewsComments)
+    app.get("/api/news/comments/user/:userID", findNewsByUser)
     app.delete("/api/news/comments/:commentID", deleteNewsComment)
     app.put("/api/news/comments/:commentID", updateNewsComment)
 
