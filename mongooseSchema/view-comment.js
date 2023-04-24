@@ -1,14 +1,8 @@
-import mongoose from "mongoose";
+import mongoose, {Schema} from "mongoose";
 
-const ViewCommentSchema = new mongoose.Schema(
-    {
-        userId: String,
-        viewId: String,
-        message: String,
-        likes: Number,
-        dislikes: Number,
-        username: String,
-        profilePhoto: String,
-        datePosted: {type: Date}
-    },  {collection: 'ViewComment'});
-export default ViewCommentSchema;
+const ViewCommentSchema = new mongoose.Schema({
+        user:{type:Schema.Types.ObjectId,ref:"users"},
+        views:{type:Object,ref:"views"},
+        comment:{type:String},
+        date:{type:Date}},{collection: 'view-comments'})
+export default ViewCommentSchema

@@ -1,7 +1,13 @@
-import ViewCommentModel from "../models/views-comment-model.js";
+import ViewCommentModel from "../models/view-comment-model.js";
 
-export const findAllViewComments = async () => {
-    return ViewCommentModel.find();
+export const findAllViewCommentsByUser = async (uid) => {
+    console.log(uid)
+    return ViewCommentModel.distinct("views", {"user": uid})
+}
+
+export const findAllViewComments = async (viewID) => {
+    console.log(viewID)
+    return ViewCommentModel.find({ "views._id": viewID}).populate("user").sort({date:'desc'}).exec()
 }
 
 export const createViewComment = async (comment) => {
@@ -12,4 +18,8 @@ export const updateViewComment = async (id, view) => {
     return ViewCommentModel.updateOne({ _id: id }, view);
 }
 
-export const deleteViewComment = (uid) => ViewCommentModel.deleteOne({ _id: uid });
+export const deleteViewComment = (uid) => {
+    const status = ViewCommentModel.deleteOne({ _id: uid });
+    return status
+}
+

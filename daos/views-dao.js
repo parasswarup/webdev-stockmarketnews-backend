@@ -4,6 +4,10 @@ export const findAllViews = async () => {
     return ViewsModel.find();
 }
 
+export const findAllViewsByUser = async (id) => {
+    return ViewsModel.find({userId : id});
+}
+
 export const findAllViewComments = async (vid) => {
     return ViewsModel.find({"_id" :vid});
 }

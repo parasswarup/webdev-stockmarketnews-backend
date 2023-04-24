@@ -1,7 +1,7 @@
 /**
  * @file Defines mongoose schema for documents in the users collection
  */
-import mongoose from "mongoose";
+import mongoose, {Schema} from "mongoose";
 
 const UserActionSchema = new mongoose.Schema(
     {
@@ -12,6 +12,7 @@ const UserActionSchema = new mongoose.Schema(
             default: "REGISTERED",
             enum: ["ADMIN", "REGISTERED"],
         },
+        //likedNews: [{newsId: { type: Schema.Types.ObjectId, ref: "news"}, dateLiked: Date}],
         likedNews: [{newsId: String, dateLiked: Date}],
         likedView: [{viewId: String, dateLiked: Date}],
         postedView: [{viewId: String, datePosted: Date}],

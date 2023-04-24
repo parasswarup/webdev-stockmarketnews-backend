@@ -13,6 +13,7 @@ import session from "express-session";
 import ViewsController from "./controller/views-controller.js";
 import AuthenticationController from "./controller/auth-controller.js";
 import UserActionController from "./controller/user-action-controller.js";
+import ViewCommentController from "./controller/view-comment-controller.js";
 
 dotenv.config()
 try {
@@ -162,7 +163,7 @@ ViewsController(app);
 NewsCommentsController(app);
 AuthenticationController(app);
 UserActionController(app);
-
+ViewCommentController(app);
 
 app.listen(process.env.PORT || 4000);
 

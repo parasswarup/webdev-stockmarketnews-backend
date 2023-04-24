@@ -1,4 +1,4 @@
-import * as ViewCommentDao from "../daos/views-comment-dao.js";
+import * as ViewCommentDao from "../daos/view-comment-dao.js";
 
 
 const ViewsCommentController = (app) => {
@@ -11,11 +11,18 @@ const ViewsCommentController = (app) => {
         //res.json(views);
     };
 
+    const findAllViewCommentsByUser = async (req, res) => {
+
+        console.log("reaching here in views")
+        const data = await ViewCommentDao.findAllViewCommentsByUser(req.params.id);
+        console.log(data)
+        res.json(data);
+        //res.json(views);
+    };
+
     const createViewComment = async (req, res) => {
-        const news = req.body;
-        // tuits.push({ ...tuit, id: new Date().getTime() });
-        const newNews = await ViewCommentDao.createViewComment(req.body)
-        res.json(newNews);
+        const newViewComment = await ViewCommentDao.createViewComment(req.body)
+        res.json(newViewComment);
     };
 
 
@@ -34,6 +41,7 @@ const ViewsCommentController = (app) => {
 
     app.post("/api/viewComment", createViewComment);
     app.get("/api/viewComment", findAllViewComment);
+    app.get("/api/viewComment/user/:id", findAllViewCommentsByUser);
     app.delete("/api/viewComment/:id", deleteViewComment);
     app.put("/api/viewComment/:id", updateViewComment);
 };

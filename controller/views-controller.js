@@ -1,5 +1,5 @@
 import * as ViewsDao from "../daos/views-dao.js";
-import {decreaseViewLikeCount, increaseViewLikeCount} from "../daos/views-dao.js";
+import {decreaseViewLikeCount, findAllViewsByUser, increaseViewLikeCount} from "../daos/views-dao.js";
 
 
 
@@ -10,6 +10,16 @@ const ViewsController = (app) => {
         console.log("reaching here in views")
         const data = await ViewsDao.findAllViews()
         console.log(data)
+        res.json(data);
+        //res.json(views);
+    };
+
+
+    const findAllViewsByUser = async (req, res) => {
+
+        const data = await ViewsDao.findAllViewsByUser(req.params.id)
+        console.log(data)
+        console.log(req.params.id)
         res.json(data);
         //res.json(views);
     };
@@ -82,6 +92,7 @@ const ViewsController = (app) => {
     app.post("/api/views", createView);
     app.get("/api/views", findAllViews);
     app.delete("/api/views/:id", deleteView);
+    app.get("/api/views/:id", findAllViewsByUser);
     app.get("/api/views/comment/:vid", findAllViewComments);
     app.put("/api/views/:id", updateView);
     app.put("/api/views/comment/:vid", addViewComment);
