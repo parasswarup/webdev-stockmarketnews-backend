@@ -9,9 +9,30 @@ const NewsController = (app) => {
     let currentUser = null;
 
     const findAllNews = async (req, res) => {
-        const data = await NewsDao.findAllNews()
+        console.log(req.query)
+        let data
+        let curentPage = 1
+        if(req.query.page != null && req.query.pattern == null ){
+            data = await NewsDao.findAllNews()
+            curentPage=req.query.page
+        }
+        else
+        {
+            data = await NewsDao.findNewsByPattern(req.query.pattern)
+            curentPage=req.query.page
+        }
 
-        res.json(data);
+        console.log(curentPage)
+        const pageLength = 5
+
+        const totalPage = Math.ceil(data.length/pageLength)
+
+        let tmpNews=[]
+        for(let i=(curentPage-1)*pageLength;i<(pageLength*curentPage) && i<(data.length);i++){
+            tmpNews.push(data[i])
+        }
+        const finalData={"currentPage":curentPage,"totalPage":totalPage,"data":tmpNews}
+        res.json(finalData);
     };
 
     const createNews = async (req, res) => {
@@ -22,15 +43,22 @@ const NewsController = (app) => {
     };
 
     const findNewsByID = async (req, res) => {
-        console.log("NEWS BY ID")
         const data = await NewsDao.findNewsById(req.params.id)
         console.log(data)
         res.json(data);
     };
 
+    const findNewsByPattern = async (req, res) => {
+        const data  = await NewsDao.findNewsByPattern(req.query.pat)
+        res.json(data);
+    };
+
     app.post("/api/news", createNews);
-    app.get("/api/news", findAllNews);
+    app.put("/api/news", findAllNews);
     app.get("/api/news/:id", findNewsByID);
+    app.put("/api/news/pattern", findNewsByPattern);
+
+
 };
 
 
