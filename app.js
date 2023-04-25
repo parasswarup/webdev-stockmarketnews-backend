@@ -14,6 +14,8 @@ import ViewsController from "./controller/views-controller.js";
 import AuthenticationController from "./controller/auth-controller.js";
 import UserActionController from "./controller/user-action-controller.js";
 import ViewCommentController from "./controller/view-comment-controller.js";
+import NewsLikesController from "./controller/news-like-controller.js";
+
 
 dotenv.config()
 try {
@@ -162,6 +164,8 @@ NewsController(app);
 ViewsController(app);
 NewsCommentsController(app);
 AuthenticationController(app);
+NewsLikesController(app)
+
 UserActionController(app);
 ViewCommentController(app);
 
