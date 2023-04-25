@@ -20,3 +20,16 @@ export const createNews = async (news) => {
     return newNews;
 };
 
+export const findNewsByPattern = async (pattern) => {
+    if(pattern!=null){
+    const news = await NewsModel.find( {$or:[{"symbol":{$regex: `.*${pattern}.*`, $options: 'i'}},{"company":{$regex: `.*${pattern}.*`, $options: 'i'}},{"description":{$regex: `.*${pattern}.*`, $options: 'i'}},{"industry":{$regex: `.*${pattern}.*`, $options: 'i'}},{"title":{$regex: `.*${pattern}.*`, $options: 'i'}}]});
+        return news;
+    }{
+        const news = await findAllNews()
+        return news;
+    }
+
+
+};
+
+
