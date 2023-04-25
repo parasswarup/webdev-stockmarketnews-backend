@@ -12,6 +12,8 @@ import {createNews,findAllNews} from "./daos/news-dao.js";
 import session from "express-session";
 import ViewsController from "./controller/views-controller.js";
 import AuthenticationController from "./controller/auth-controller.js";
+import NewsLikesController from "./controller/news-like-controller.js";
+
 
 dotenv.config()
 try {
@@ -160,6 +162,7 @@ NewsController(app);
 ViewsController(app);
 NewsCommentsController(app);
 AuthenticationController(app);
+NewsLikesController(app)
 
 
 app.listen(process.env.PORT || 4000);
