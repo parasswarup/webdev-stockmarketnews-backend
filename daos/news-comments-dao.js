@@ -21,6 +21,15 @@ export const findAllNewsComments  = (newsID ) => {
 
 }
 
+export const newsCommentsCount  = async (newsID) => {
+    console.log(newsID)
+    const status = await NewsCommentsModel.count({"news._id": newsID})
+
+    return status
+
+}
+
+
 export const deleteNewsComment  = (commentID ) => {
     const status = NewsCommentsModel.deleteOne({_id:commentID})
     return status

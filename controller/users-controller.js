@@ -7,6 +7,7 @@ const UserController = (app) => {
             await usersDao.findAllUsers()
                 .then((users) => res.json(users));
         } else {
+            console.log("YOU ARE NOT AN ADMIN", req.session["currentUser"])
             res.sendStatus(403);
         }
     };
