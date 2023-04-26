@@ -33,11 +33,9 @@ export const newsCommentsCount  = async (newsID) => {
 export const deleteNewsComment  = (commentID ) => {
     const status = NewsCommentsModel.deleteOne({_id:commentID})
     return status
-
 }
 
 export const updateNewsComment  = (commentID ,payload) => {
     const status = NewsCommentsModel.updateOne({_id:commentID},payload)
     return status
-
 }

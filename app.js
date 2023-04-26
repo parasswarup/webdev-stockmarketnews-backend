@@ -12,6 +12,8 @@ import {createNews,findAllNews} from "./daos/news-dao.js";
 import session from "express-session";
 import ViewsController from "./controller/views-controller.js";
 import AuthenticationController from "./controller/auth-controller.js";
+import UserActionController from "./controller/user-action-controller.js";
+import ViewCommentController from "./controller/view-comment-controller.js";
 import NewsLikesController from "./controller/news-like-controller.js";
 import {PrivilegeController} from "./controller/privilege-controller.js";
 
@@ -166,6 +168,8 @@ AuthenticationController(app);
 NewsLikesController(app)
 PrivilegeController(app)
 
+UserActionController(app);
+ViewCommentController(app);
 
 app.listen(process.env.PORT || 4000);
 
