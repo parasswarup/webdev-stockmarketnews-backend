@@ -55,5 +55,12 @@ export const updatePrivilegeByUserFalse = async (uid,privilege) => {
     }
 
 
+
 };
+
+export const setPrivileges = async (uid,payload) => {
+   const response =  await PrivilegeModel.updateOne({"user":uid},payload)
+   const privilege = await getPrivilegeByUser(uid)
+    return {...response,privilege}
+}
 

@@ -13,6 +13,7 @@ import session from "express-session";
 import ViewsController from "./controller/views-controller.js";
 import AuthenticationController from "./controller/auth-controller.js";
 import NewsLikesController from "./controller/news-like-controller.js";
+import {PrivilegeController} from "./controller/privilege-controller.js";
 
 
 dotenv.config()
@@ -163,6 +164,7 @@ ViewsController(app);
 NewsCommentsController(app);
 AuthenticationController(app);
 NewsLikesController(app)
+PrivilegeController(app)
 
 
 app.listen(process.env.PORT || 4000);
