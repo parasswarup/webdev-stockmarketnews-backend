@@ -37,10 +37,13 @@ const AuthenticationController = (app) => {
 
         if (match && allowSignInVal) {
             user.password = bcrypt.hash(password, saltRounds);
+
+
             req.session['currentUser'] = user;
             res.json(user);
         } else {
-            res.sendStatus(403);
+            res.append('errormessage','invalid creds')
+            return  res.sendStatus(403);
         }
     }
     const googleLogin = async (req, res) => {
@@ -48,7 +51,6 @@ const AuthenticationController = (app) => {
         const email = req.body.email;
         const password = req.body.password;
         const user =  await usersDao.findUserByEmailAddress(email);
-        console.log("USER LOGGED IN ",user);
 
         if(user) {
             const match = await bcrypt.compare(password, user.password);
@@ -61,9 +63,11 @@ const AuthenticationController = (app) => {
             if (match && allowSignInVal) {
                 user.password = bcrypt.hash(password, saltRounds);
                 req.session['currentUser'] = user;
+                console.log("logged in User",user)
                 res.json(user);
             } else {
-                res.sendStatus(403);
+                return  res.sendStatus(403);
+
             }
         }
         else {
